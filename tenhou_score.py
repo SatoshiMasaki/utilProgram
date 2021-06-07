@@ -1,34 +1,56 @@
 import time
-# from bs4 import BeautifulSoup
-# from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
-# import re
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import re
+
+"""
+    対局時間
+    <input type="checkbox" id="f_tr__TimeRange_start_enable">
+    検索
+    <input type="submit" value="適用">
+    対局ルール
+    <input type="checkbox" id="f_sct__SCType_enabled">
+    検索
+    <input type="submit" value="適用" style="">
+    三麻
+    <label for="f_sct__SCType_field_playernum_0">三人</label>
+    四麻
+    <label for="f_sct__SCType_field_playernum_1">四人</label>
+"""
 
 
-# def crawler():
-#     rank_1 = 0
-#     rank_2 = 0
-#     rank_3 = 0
-#     player_name = "南極ラーメン"
-#     log_url = "https://nodocchi.moe/tenhoulog/#!&name={}".format(player_name)
-#     chrome_options = Options()
-#     chrome_options.add_argument("--headless")
-#
-#     driver = webdriver.Chrome(executable_path="chromedriver.exe")
-#     driver.get(log_url)
-#     time.sleep(5)
-#
-#     html = driver.page_source.encode('utf-8')
-#     page_data = BeautifulSoup(html, "html.parser")
-#
-#     score_table = page_data.find("tbody")
-#     # score_table = page_data.find(class_="tbl_list")
-#     score_datas = score_table.find_all("tr")
-#
-#     print(score_datas)
-#     print(len(score_datas))
-#     for data in score_datas:
-#         print(data)
+def crawler():
+    rank_1 = 0
+    rank_2 = 0
+    rank_3 = 0
+    player_name = "南極ラーメン"
+    log_url = "https://nodocchi.moe/tenhoulog/#!&name={}".format(player_name)
+    chrome_options = Options()
+    # chrome_options.add_argument("--headless")
+
+    driver = webdriver.Chrome(executable_path="chromedriver.exe")
+    driver.get(log_url)
+    time.sleep(5)
+
+    driver.find_elements_by_id("f_tr__TimeRange_start_enable").click()
+    driver.find_elements_by_xpath("//.fs_timerange/")
+
+
+
+    html = driver.page_source.encode('utf-8')
+    page_data = BeautifulSoup(html, "html.parser")
+
+    score_table = page_data.find("tbody")
+    # score_table = page_data.find(class_="tbl_list")
+    score_datas = score_table.find_all("tr")
+
+    print(score_datas)
+    print(len(score_datas))
+    for data in score_datas:
+        print(data)
+
+    time.sleep(1000)
 
 
 def main():
@@ -68,4 +90,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    crawler()
