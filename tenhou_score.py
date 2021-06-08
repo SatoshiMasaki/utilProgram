@@ -33,10 +33,12 @@ def crawler():
     driver.get(log_url)
     time.sleep(5)
 
-    driver.find_elements_by_id("f_tr__TimeRange_start_enable").click()
-    driver.find_elements_by_xpath("//.fs_timerange/")
-
-
+    search_filter = driver.find_element_by_class_name("div_filter").find_elements_by_xpath("div")
+    search_filter[1].find_element_by_xpath("//fieldset/div/span/input").click()
+    search_filter[1].find_element_by_xpath("//fieldset/legend/input[@value='適用']").click()
+    for _ in range(2):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(5)
 
     html = driver.page_source.encode('utf-8')
     page_data = BeautifulSoup(html, "html.parser")
